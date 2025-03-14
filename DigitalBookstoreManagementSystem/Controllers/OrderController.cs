@@ -1,0 +1,67 @@
+﻿using DigitalBookstoreManagementSystem.Models;
+using DigitalBookstoreManagementSystem.Repositories.Interface;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using static DigitalBookstoreManagementSystem.Models.Order;
+
+namespace DigitalBookstoreManagementSystem.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class OrderController : ControllerBase
+    {
+        private readonly IOrderRepository _orderRepository;
+
+        public OrderController(IOrderRepository orderRepository)
+        {
+            _orderRepository = orderRepository;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        {
+            var orders = await _orderRepository.GetOrders();
+            return Ok(orders);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Order>> GetOrderById(int id)
+        {
+            var order = await _orderRepository.GetOrderById(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Review>> PostReview(Order order)
+        {
+            var createdOrder = await _orderRepository.CreateOrder(order);
+            return CreatedAtAction("GetReview", new { id = createdOrder.OrderID }, createdOrder);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus status)
+        {
+            var result = await _orderRepository.UpdateOrderStatus(id, status);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var result = await _orderRepository.DeleteOrder(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+    }
+}
