@@ -6,17 +6,10 @@ namespace DigitalBookstoreManagementSystem.Models
 {
     public class Order
     {
-        public enum OrderStatus
-        {
-            Pending,
-            Shipped,
-            Delivered
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderID { get; set; }
-        public required DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public required DateTime OrderDate { get; set; } 
         public required double TotalAmount { get; set; }
         public required OrderStatus Status { get; set; } 
 
@@ -27,6 +20,13 @@ namespace DigitalBookstoreManagementSystem.Models
 
         // Navigation Property
         protected virtual User? User { get; set; }
+    }
+
+    public enum OrderStatus
+    {
+        Pending=1,
+        Shipped=2,
+        Delivered=3
     }
 }
 

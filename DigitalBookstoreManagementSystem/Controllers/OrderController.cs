@@ -2,6 +2,7 @@
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static DigitalBookstoreManagementSystem.Models.Order;
 
 namespace DigitalBookstoreManagementSystem.Controllers
@@ -36,14 +37,20 @@ namespace DigitalBookstoreManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Order order)
+        public async Task<ActionResult<Order>> PostOrder([FromBody][Bind("OrderDate,TotalAmount,Status,UserID")] Order order)
         {
-            var createdOrder = await _orderRepository.CreateOrder(order);
-            return CreatedAtAction("GetReview", new { id = createdOrder.OrderID }, createdOrder);
+            if (order == null)
+            {
+                return BadRequest("Invalid order data.");
+            }
+
+            await _orderRepository.CreateOrder(order);
+            return CreatedAtAction(nameof(GetOrderById), new { id = order.OrderID }, order);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus status)
+
+        public async Task<IActionResult> PutOrderStatus(int id, OrderStatus status)
         {
             var result = await _orderRepository.UpdateOrderStatus(id, status);
             if (!result)
@@ -54,7 +61,7 @@ namespace DigitalBookstoreManagementSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _orderRepository.DeleteOrder(id);
             if (!result)
