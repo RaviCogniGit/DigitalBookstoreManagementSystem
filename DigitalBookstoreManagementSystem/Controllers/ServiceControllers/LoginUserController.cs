@@ -3,7 +3,7 @@ using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DigitalBookstoreManagementSystem.Controllers
+namespace DigitalBookstoreManagementSystem.Controllers.ServiceControllers
 {
     [Route("api/[controller]")]
     [ApiController]

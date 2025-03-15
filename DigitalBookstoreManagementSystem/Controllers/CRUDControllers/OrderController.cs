@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DigitalBookstoreManagementSystem.DTO;
 
-namespace DigitalBookstoreManagementSystem.Controllers
+namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -47,9 +47,9 @@ namespace DigitalBookstoreManagementSystem.Controllers
             {
                 OrderID = orderdto.OrderID,
                 OrderDate = orderdto.OrderDate,
-                TotalAmount = orderdto.TotalAmount, 
+                TotalAmount = orderdto.TotalAmount,
                 Status = orderdto.Status,
-                UserID = orderdto.UserID,   
+                UserID = orderdto.UserID,
             };
 
             await _orderRepository.CreateOrder(order);

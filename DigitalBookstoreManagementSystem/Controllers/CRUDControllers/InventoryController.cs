@@ -4,7 +4,7 @@ using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DigitalBookstoreManagementSystem.Controllers
+namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -47,7 +47,7 @@ namespace DigitalBookstoreManagementSystem.Controllers
                 Quantity = inventorydto.Quantity,
                 BookID = inventorydto.BookID,
             };
-              
+
             await _context.AddInventoryAsync(inventory);
             return CreatedAtAction(nameof(GetInventoryById), new { id = inventory.InventoryID }, inventory);
         }
@@ -56,8 +56,8 @@ namespace DigitalBookstoreManagementSystem.Controllers
         public async Task<IActionResult> UpdateInventory(int id, [FromBody] InventoryDTO inventorydto)
         {
             if (inventorydto == null || id != inventorydto.InventoryID)
-            { 
-            return BadRequest("Inventory ID mismatch or invalid data.");
+            {
+                return BadRequest("Inventory ID mismatch or invalid data.");
             }
             var inventory = new Inventory
             {

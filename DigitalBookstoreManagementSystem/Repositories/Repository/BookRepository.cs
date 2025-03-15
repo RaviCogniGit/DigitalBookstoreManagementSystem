@@ -1,4 +1,5 @@
-﻿using DigitalBookstoreManagementSystem.Models;
+﻿using DigitalBookstoreManagementSystem.DTO;
+using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,15 +24,34 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             return await _context.Books.FindAsync(BookID);
         }
 
-        public async Task<Book> AddBookAsync(Book book)
+        public async Task<Book> AddBookAsync(BookDTO bookdto)
         {
+            var book = new Book
+            {
+                BookID = bookdto.BookID,
+                Title = bookdto.Title,
+                Price = bookdto.Price,
+                StockQuantity = bookdto.StockQuantity,
+                AuthorID = bookdto.AuthorID,
+                CategoryID = bookdto.CategoryID,
+            };
+
             _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
             return book;
         }
 
-        public async Task UpdateBookAsync(int id, Book book)
+        public async Task UpdateBookAsync(int id, BookDTO bookdto)
         {
+            var book = new Book
+            {
+                BookID = bookdto.BookID,
+                Title = bookdto.Title,
+                Price = bookdto.Price,
+                StockQuantity = bookdto.StockQuantity,
+                AuthorID = bookdto.AuthorID,
+                CategoryID = bookdto.CategoryID,
+            };
             _context.Entry(book).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }

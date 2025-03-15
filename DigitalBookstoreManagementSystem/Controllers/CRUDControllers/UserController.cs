@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DigitalBookstoreManagementSystem.Controllers
+namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,7 +19,7 @@ namespace DigitalBookstoreManagementSystem.Controllers
             _context = context;
         }
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser([FromBody] UserDTO userdto) 
+        public async Task<ActionResult<User>> AddUser([FromBody] UserDTO userdto)
         // The method take a parameter user of type User which would be provided in the body of the http post request from postman.
         {
             if (userdto == null) // Checks whether proper JSON body is provided for it 
@@ -50,7 +50,7 @@ namespace DigitalBookstoreManagementSystem.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
@@ -73,7 +73,7 @@ namespace DigitalBookstoreManagementSystem.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] UserDTO userdto)
         {
-            if( id != userdto.UserID)
+            if (id != userdto.UserID)
             {
                 return BadRequest("Entered ID does not match!");
             }

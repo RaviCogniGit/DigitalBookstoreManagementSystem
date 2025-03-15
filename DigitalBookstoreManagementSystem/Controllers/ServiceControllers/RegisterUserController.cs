@@ -3,7 +3,7 @@ using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DigitalBookstoreManagementSystem.Controllers
+namespace DigitalBookstoreManagementSystem.Controllers.ServiceControllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -12,12 +12,12 @@ namespace DigitalBookstoreManagementSystem.Controllers
         private readonly IRegisterService _userService;
         public RegisterUserController(IRegisterService userservice)
         {
-            _userService = userservice; 
+            _userService = userservice;
         }
 
-    [HttpPost("register")]
+        [HttpPost("register")]
 
-       public async Task<IActionResult> Register([FromBody] RegisterUserDTO userdto)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDTO userdto)
         {
             if (userdto == null)
             {

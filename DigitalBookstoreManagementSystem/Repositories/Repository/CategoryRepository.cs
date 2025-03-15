@@ -1,0 +1,32 @@
+﻿using DigitalBookstoreManagementSystem.DTO;
+using DigitalBookstoreManagementSystem.Models;
+using DigitalBookstoreManagementSystem.Repositories.Interface;
+
+namespace DigitalBookstoreManagementSystem.Repositories.Repository
+{
+    public class CategoryRepository : ICategoryInterface
+    {
+            {
+        private readonly DigitalBookstoreManagementSystemDBContext _context;
+        public CategoryRepository(DigitalBookstoreManagementSystemDBContext context)
+        {
+            _context = context;
+        }
+        public async Task AddCategoryAsync(CategoryDTO categorydto)
+        {
+            var category = new Category
+            {
+                CategoryID = 0,
+                Name = categorydto.Name,
+            };
+
+            if (categorydto != null)
+            {
+                await _context.Categories.AddAsync(category);
+                await _context.SaveChangesAsync();
+            }
+        }
+    }
+}
+    }
+}

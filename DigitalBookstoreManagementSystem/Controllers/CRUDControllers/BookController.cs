@@ -4,7 +4,7 @@ using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DigitalBookstoreManagementSystem.Controllers
+namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -40,16 +40,7 @@ namespace DigitalBookstoreManagementSystem.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(BookDTO bookdto)
         {
-            var book = new Book
-            {
-                BookID = bookdto.BookID,
-                Title = bookdto.Title,
-                Price = bookdto.Price,
-                StockQuantity = bookdto.StockQuantity,
-                AuthorID = bookdto.AuthorID,
-                CategoryID = bookdto.CategoryID,
-            };
-            var createdBook = await _context.AddBookAsync(book);
+            var createdBook = await _context.AddBookAsync(bookdto);
             return CreatedAtAction("GetBook", new { id = createdBook.BookID }, createdBook);
         }
 
@@ -57,24 +48,15 @@ namespace DigitalBookstoreManagementSystem.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, BookDTO bookdto)
         {
-            var book = new Book
-            {
-                BookID = bookdto.BookID,
-                Title = bookdto.Title,
-                Price = bookdto.Price,
-                StockQuantity = bookdto.StockQuantity,
-                AuthorID = bookdto.AuthorID,
-                CategoryID = bookdto.CategoryID,
-            };
 
-            if (id != book.BookID)
+            if (id != bookdto.BookID)
             {
                 return BadRequest();
             }
 
             try
             {
-                await _context.UpdateBookAsync(id, book);
+                await _context.UpdateBookAsync(id, bookdto);
             }
             catch (KeyNotFoundException)
             {
