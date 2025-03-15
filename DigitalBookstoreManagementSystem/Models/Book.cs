@@ -20,8 +20,8 @@ namespace DigitalBookstoreManagementSystem.Models
         public int CategoryID { get; set; }
 
         // Navigation Property
-        public virtual Author? Author { get; set; }  // Check Required or ? or Ignore the warning
-        public virtual Category? Category { get; set; }
+        public Author? Author { get; set; }  // Check Required or ? or Ignore the warning
+        public Category? Category { get; set; }
 
     }
 }

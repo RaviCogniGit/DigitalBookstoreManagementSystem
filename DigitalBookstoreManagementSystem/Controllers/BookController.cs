@@ -1,4 +1,5 @@
-﻿using DigitalBookstoreManagementSystem.Models;
+﻿using DigitalBookstoreManagementSystem.DTO;
+using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,16 +38,35 @@ namespace DigitalBookstoreManagementSystem.Controllers
 
         // POST: api/Books
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public async Task<ActionResult<Book>> PostBook(BookDTO bookdto)
         {
+            var book = new Book
+            {
+                BookID = bookdto.BookID,
+                Title = bookdto.Title,
+                Price = bookdto.Price,
+                StockQuantity = bookdto.StockQuantity,
+                AuthorID = bookdto.AuthorID,
+                CategoryID = bookdto.CategoryID,
+            };
             var createdBook = await _context.AddBookAsync(book);
             return CreatedAtAction("GetBook", new { id = createdBook.BookID }, createdBook);
         }
 
         // PUT: api/Books/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, Book book)
+        public async Task<IActionResult> PutBook(int id, BookDTO bookdto)
         {
+            var book = new Book
+            {
+                BookID = bookdto.BookID,
+                Title = bookdto.Title,
+                Price = bookdto.Price,
+                StockQuantity = bookdto.StockQuantity,
+                AuthorID = bookdto.AuthorID,
+                CategoryID = bookdto.CategoryID,
+            };
+
             if (id != book.BookID)
             {
                 return BadRequest();

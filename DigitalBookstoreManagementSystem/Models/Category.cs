@@ -7,5 +7,8 @@ namespace DigitalBookstoreManagementSystem.Models
         [Key]
         public required int CategoryID { get; set; }
         public required string Name { get; set; }
+
+        // Navigation Property
+        public Book? book { get; set; }
     }
 }

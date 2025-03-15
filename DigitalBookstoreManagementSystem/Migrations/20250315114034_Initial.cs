@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace DigitalBookstoreManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCommit : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,6 +83,28 @@ namespace DigitalBookstoreManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalAmount = table.Column<double>(type: "float", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderID);
+                    table.ForeignKey(
+                        name: "FK_Orders_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Inventories",
                 columns: table => new
                 {
@@ -132,17 +155,24 @@ namespace DigitalBookstoreManagementSystem.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Books_AuthorID",
                 table: "Books",
-                column: "AuthorID");
+                column: "AuthorID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_CategoryID",
                 table: "Books",
-                column: "CategoryID");
+                column: "CategoryID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Inventories_BookID",
                 table: "Inventories",
                 column: "BookID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserID",
+                table: "Orders",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BookID",
@@ -152,8 +182,7 @@ namespace DigitalBookstoreManagementSystem.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserID",
                 table: "Reviews",
-                column: "UserID",
-                unique: true);
+                column: "UserID");
         }
 
         /// <inheritdoc />
@@ -161,6 +190,9 @@ namespace DigitalBookstoreManagementSystem.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Inventories");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Reviews");

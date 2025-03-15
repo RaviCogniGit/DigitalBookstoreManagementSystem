@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DigitalBookstoreManagementSystem.Models;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
+using System.ComponentModel.DataAnnotations;
 
-namespace DigitalBookstoreManagementSystem.Models
+namespace DigitalBookstoreManagementSystem.DTO
 {
-    public class Review
+    public class ReviewDTO
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReviewID { get; set; }
 
         [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5 stars.")]
@@ -15,17 +13,8 @@ namespace DigitalBookstoreManagementSystem.Models
 
         [MaxLength(500, ErrorMessage = "Cannot exceed 500 characters")]
         public required string Comment { get; set; }
-
-        //Foreign key
-
-        [ForeignKey(nameof(User))]
         public required int UserID { get; set; }
-
-        [ForeignKey(nameof(Book))]
         public required int BookID { get; set; }
 
-        //Navigation Property
-        public User? User { get; set; }
-        public Book? Book { get; set; }
     }
 }

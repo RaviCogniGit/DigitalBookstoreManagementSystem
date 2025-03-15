@@ -1,4 +1,5 @@
-﻿using DigitalBookstoreManagementSystem.Models;
+﻿using DigitalBookstoreManagementSystem.DTO;
+using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,17 +39,33 @@ namespace DigitalBookstoreManagementSystem.Controllers
 
             // POST: api/Reviews
             [HttpPost]
-            public async Task<ActionResult<Review>> PostReview(Review review)
+            public async Task<ActionResult<Review>> PostReview(ReviewDTO reviewdto)
             {
+            var review = new Review
+            {
+                ReviewID = reviewdto.ReviewID,
+                Rating = reviewdto.Rating,
+                Comment = reviewdto.Comment,
+                BookID = reviewdto.BookID,
+                UserID = reviewdto.UserID,
+            };
                 var createdReview = await _reviewService.AddReviewAsync(review);
                 return CreatedAtAction("GetReview", new { id = createdReview.ReviewID }, createdReview);
             }
 
             // PUT: api/Reviews/5
             [HttpPut("{id}")]
-            public async Task<IActionResult> PutReview(int id, Review review)
+            public async Task<IActionResult> PutReview(int id, ReviewDTO reviewdto)
             {
-                if (id != review.ReviewID)
+            var review = new Review
+            {
+                ReviewID = reviewdto.ReviewID,
+                Rating = reviewdto.Rating,
+                Comment = reviewdto.Comment,
+                BookID = reviewdto.BookID,
+                UserID = reviewdto.UserID,
+            };
+            if (id != review.ReviewID)
                 {
                     return BadRequest();
                 }

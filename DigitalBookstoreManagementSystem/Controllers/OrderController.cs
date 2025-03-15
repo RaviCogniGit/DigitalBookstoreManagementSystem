@@ -3,7 +3,7 @@ using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static DigitalBookstoreManagementSystem.Models.Order;
+using DigitalBookstoreManagementSystem.DTO;
 
 namespace DigitalBookstoreManagementSystem.Controllers
 {
@@ -37,12 +37,20 @@ namespace DigitalBookstoreManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder([FromBody][Bind("OrderDate,TotalAmount,Status,UserID")] Order order)
+        public async Task<ActionResult<Order>> PostOrder([FromBody] OrderDTO orderdto)
         {
-            if (order == null)
+            if (orderdto == null)
             {
                 return BadRequest("Invalid order data.");
             }
+            var order = new Order
+            {
+                OrderID = orderdto.OrderID,
+                OrderDate = orderdto.OrderDate,
+                TotalAmount = orderdto.TotalAmount, 
+                Status = orderdto.Status,
+                UserID = orderdto.UserID,   
+            };
 
             await _orderRepository.CreateOrder(order);
             return CreatedAtAction(nameof(GetOrderById), new { id = order.OrderID }, order);

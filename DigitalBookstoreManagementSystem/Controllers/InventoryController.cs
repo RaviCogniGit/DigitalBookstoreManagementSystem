@@ -1,4 +1,5 @@
-﻿using DigitalBookstoreManagementSystem.Models;
+﻿using DigitalBookstoreManagementSystem.DTO;
+using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,24 +35,36 @@ namespace DigitalBookstoreManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Inventory>> AddInventory([FromBody] Inventory inventory)
+        public async Task<ActionResult<Inventory>> AddInventory([FromBody] InventoryDTO inventorydto)
         {
-            if (inventory == null)
+            if (inventorydto == null)
             {
                 return BadRequest("Invalid inventory data.");
             }
+            var inventory = new Inventory
+            {
+                InventoryID = inventorydto.InventoryID,
+                Quantity = inventorydto.Quantity,
+                BookID = inventorydto.BookID,
+            };
               
             await _context.AddInventoryAsync(inventory);
             return CreatedAtAction(nameof(GetInventoryById), new { id = inventory.InventoryID }, inventory);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateInventory(int id, [FromBody] Inventory inventory)
+        public async Task<IActionResult> UpdateInventory(int id, [FromBody] InventoryDTO inventorydto)
         {
-            if (inventory == null || id != inventory.InventoryID)
+            if (inventorydto == null || id != inventorydto.InventoryID)
             { 
             return BadRequest("Inventory ID mismatch or invalid data.");
             }
+            var inventory = new Inventory
+            {
+                InventoryID = inventorydto.InventoryID,
+                Quantity = inventorydto.Quantity,
+                BookID = inventorydto.BookID,
+            };
 
             await _context.UpdateInventoryAsync(inventory);
             return Ok("Inventory Updated Successfully.");

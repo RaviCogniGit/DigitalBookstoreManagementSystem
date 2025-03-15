@@ -65,9 +65,11 @@ namespace DigitalBookstoreManagementSystem.Migrations
 
                     b.HasKey("BookID");
 
-                    b.HasIndex("AuthorID");
+                    b.HasIndex("AuthorID")
+                        .IsUnique();
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("CategoryID")
+                        .IsUnique();
 
                     b.ToTable("Books");
                 });
@@ -105,6 +107,8 @@ namespace DigitalBookstoreManagementSystem.Migrations
 
                     b.HasKey("InventoryID");
 
+                    b.HasIndex("BookID");
+
                     b.ToTable("Inventories");
                 });
 
@@ -129,6 +133,8 @@ namespace DigitalBookstoreManagementSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Orders");
                 });
@@ -156,6 +162,10 @@ namespace DigitalBookstoreManagementSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ReviewID");
+
+                    b.HasIndex("BookID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Reviews");
                 });
@@ -192,20 +202,78 @@ namespace DigitalBookstoreManagementSystem.Migrations
             modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Book", b =>
                 {
                     b.HasOne("DigitalBookstoreManagementSystem.Models.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorID")
+                        .WithOne("book")
+                        .HasForeignKey("DigitalBookstoreManagementSystem.Models.Book", "AuthorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalBookstoreManagementSystem.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
+                        .WithOne("book")
+                        .HasForeignKey("DigitalBookstoreManagementSystem.Models.Book", "CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Inventory", b =>
+                {
+                    b.HasOne("DigitalBookstoreManagementSystem.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Order", b =>
+                {
+                    b.HasOne("DigitalBookstoreManagementSystem.Models.User", "User")
+                        .WithMany("order")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Review", b =>
+                {
+                    b.HasOne("DigitalBookstoreManagementSystem.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DigitalBookstoreManagementSystem.Models.User", "User")
+                        .WithMany("Review")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Author", b =>
+                {
+                    b.Navigation("book");
+                });
+
+            modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Category", b =>
+                {
+                    b.Navigation("book");
+                });
+
+            modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.User", b =>
+                {
+                    b.Navigation("Review");
+
+                    b.Navigation("order");
                 });
 #pragma warning restore 612, 618
         }

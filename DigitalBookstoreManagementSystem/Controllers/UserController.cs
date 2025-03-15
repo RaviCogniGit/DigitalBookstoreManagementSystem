@@ -1,4 +1,5 @@
-﻿using DigitalBookstoreManagementSystem.Models;
+﻿using DigitalBookstoreManagementSystem.DTO;
+using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,13 +19,20 @@ namespace DigitalBookstoreManagementSystem.Controllers
             _context = context;
         }
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser([FromBody] User user) 
+        public async Task<ActionResult<User>> AddUser([FromBody] UserDTO userdto) 
         // The method take a parameter user of type User which would be provided in the body of the http post request from postman.
         {
-            if (user == null) // Checks whether proper JSON body is provided for it 
+            if (userdto == null) // Checks whether proper JSON body is provided for it 
             {
                 return BadRequest("Invalid Data");
             }
+            var user = new User
+            {
+                Name = userdto.Name,
+                Email = userdto.Email,
+                Role = userdto.Role,
+                Password = userdto.Password
+            };
             await _context.AddUser(user);
             return Ok(user);
         }
@@ -63,12 +71,19 @@ namespace DigitalBookstoreManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] User user)
+        public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] UserDTO userdto)
         {
-            if( id != user.UserID)
+            if( id != userdto.UserID)
             {
                 return BadRequest("Entered ID does not match!");
             }
+            var user = new User
+            {
+                Name = userdto.Name,
+                Email = userdto.Email,
+                Role = userdto.Role,
+                Password = userdto.Password
+            };
             await _context.UpdateUser(user);
             return NoContent();
         }

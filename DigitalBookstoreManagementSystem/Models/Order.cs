@@ -19,7 +19,7 @@ namespace DigitalBookstoreManagementSystem.Models
         public int UserID { get; set; }
 
         // Navigation Property
-        protected virtual User? User { get; set; }
+        public User? User { get; set; } 
     }
 
     public enum OrderStatus
