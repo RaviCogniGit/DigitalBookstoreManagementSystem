@@ -4,9 +4,8 @@ using DigitalBookstoreManagementSystem.Repositories.Interface;
 
 namespace DigitalBookstoreManagementSystem.Repositories.Repository
 {
-    public class CategoryRepository : ICategoryInterface
+    public class CategoryRepository : ICategoryRepository
     {
-            {
         private readonly DigitalBookstoreManagementSystemDBContext _context;
         public CategoryRepository(DigitalBookstoreManagementSystemDBContext context)
         {
@@ -28,5 +27,5 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
         }
     }
 }
-    }
-}
+    
+
