@@ -9,6 +9,8 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // [Authorize]
+
     public class UserController : ControllerBase
     {
         // Dependency Injection to provide Usercontroller with an instance of IUserRepository
@@ -50,7 +52,6 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {

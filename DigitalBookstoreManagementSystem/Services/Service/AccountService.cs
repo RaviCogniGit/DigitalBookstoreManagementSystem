@@ -6,15 +6,30 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DigitalBookstoreManagementSystem.Services.Service
 {
-    public class RegisterService : IRegisterService
+    public class AccountService : IAccountService
     {
         private readonly IUserRepository userRepository;
         private readonly ITokenRepository tokenRepository;
 
-        public RegisterService(IUserRepository userRepository, ITokenRepository tokenRepository)
+        public AccountService(IUserRepository userRepository, ITokenRepository tokenRepository)
         {
             this.userRepository = userRepository;
             this.tokenRepository = tokenRepository;
+        }
+
+        public async Task<string> AuthenticateUser(LoginUserDTO logindto)
+        {
+            var user = await userRepository.GetUserByEmail(logindto.Email);
+            if (user == null || logindto.Password != user.Password)
+            {
+                return null;
+            }
+
+            var roles = new List<string> { user.Role };
+
+            var token = tokenRepository.CreateJWTToken(new IdentityUser { Email = user.Email }, roles);
+
+            return token;
         }
 
         public async Task<bool> RegisterUser(RegisterUserDTO userdto)
@@ -35,6 +50,5 @@ namespace DigitalBookstoreManagementSystem.Services.Service
             await userRepository.AddUser(user);
             return true;
         }
-
     }
 }

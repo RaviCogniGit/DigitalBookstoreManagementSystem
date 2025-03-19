@@ -1,14 +1,14 @@
 ﻿using DigitalBookstoreManagementSystem.DTO;
 using DigitalBookstoreManagementSystem.Models;
 
-namespace DigitalBookstoreManagementSystem.Repositories.Interface
+namespace DigitalBookstoreManagementSystem.Services.Interface
 {
-    public interface IBookRepository
+    public interface IBookService
     {
         Task<IEnumerable<Book>> GetAllBooksAsync();
         Task<Book> GetBookByIdAsync(int id);
-        Task<Book> AddBookAsync(Book book);
-        Task UpdateBookAsync(int id, Book book);
+        Task<Book> AddBookAsync(BookDTO bookdto);
+        Task UpdateBookAsync(int id, BookDTO bookdto);
         Task DeleteBookAsync(int id);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using DigitalBookstoreManagementSystem.DTO;
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
+using DigitalBookstoreManagementSystem.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +10,13 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // [Authorize(Roles = "Admin")]
+
     public class BookController : ControllerBase
     {
-        private readonly IBookRepository _context;
+        private readonly IBookService _context;
 
-        public BookController(IBookRepository context)
+        public BookController(IBookService context)
         {
             _context = context;
         }

@@ -7,10 +7,10 @@ namespace DigitalBookstoreManagementSystem.Controllers.ServiceControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginUserController : ControllerBase
+    public class AccountController : ControllerBase
     {
-        private readonly ILoginService _userService;
-        public LoginUserController(ILoginService userservice)
+        private readonly IAccountService _userService;
+        public AccountController(IAccountService userservice)
         {
             _userService = userservice;
         }
@@ -24,6 +24,18 @@ namespace DigitalBookstoreManagementSystem.Controllers.ServiceControllers
                 return Unauthorized(new { Message = "Oops! You cannot access the resource" });
             }
             return Ok(new { JwtToken = token });
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterUserDTO userdto)
+        {
+            if (userdto == null)
+            {
+                return BadRequest("User Data is missing!");
+            }
+            var result = await _userService.RegisterUser(userdto);
+
+            return Ok(new { Message = "User Registered. Please Login!!" });
         }
     }
 }

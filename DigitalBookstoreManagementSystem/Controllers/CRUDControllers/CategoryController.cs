@@ -1,6 +1,7 @@
 ﻿using DigitalBookstoreManagementSystem.DTO;
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,8 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // [Authorize(Roles = "Admin")]
+
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;

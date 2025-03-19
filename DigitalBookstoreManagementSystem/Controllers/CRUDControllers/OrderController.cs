@@ -4,31 +4,36 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DigitalBookstoreManagementSystem.DTO;
+using Microsoft.AspNetCore.Authorization;
+using DigitalBookstoreManagementSystem.Services.Interface;
+using DigitalBookstoreManagementSystem.Services.Service;
 
 namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // [Authorize]
+
     public class OrderController : ControllerBase
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IOrderService _orderService;
 
-        public OrderController(IOrderRepository orderRepository)
+        public OrderController(IOrderService orderService)
         {
-            _orderRepository = orderRepository;
+            _orderService = orderService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            var orders = await _orderRepository.GetOrders();
+            var orders = await _orderService.GetOrders();
             return Ok(orders);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrderById(int id)
         {
-            var order = await _orderRepository.GetOrderById(id);
+            var order = await _orderService.GetOrderById(id);
             if (order == null)
             {
                 return NotFound();
@@ -43,24 +48,15 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             {
                 return BadRequest("Invalid order data.");
             }
-            var order = new Order
-            {
-                OrderID = orderdto.OrderID,
-                OrderDate = orderdto.OrderDate,
-                TotalAmount = orderdto.TotalAmount,
-                Status = orderdto.Status,
-                UserID = orderdto.UserID,
-            };
 
-            await _orderRepository.CreateOrder(order);
-            return CreatedAtAction(nameof(GetOrderById), new { id = order.OrderID }, order);
+            await _orderService.CreateOrder(orderdto);
+            return CreatedAtAction(nameof(GetOrderById), new { id = orderdto.OrderID }, orderdto);
         }
 
         [HttpPut("{id}")]
-
-        public async Task<IActionResult> PutOrderStatus(int id, OrderStatus status)
+        public async Task<IActionResult> PutOrderStatus(int id,[FromBody] OrderStatus status)
         {
-            var result = await _orderRepository.UpdateOrderStatus(id, status);
+            var result = await _orderService.UpdateOrderStatus(id, status);
             if (!result)
             {
                 return NotFound();
@@ -71,7 +67,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _orderRepository.DeleteOrder(id);
+            var result = await _orderService.DeleteOrder(id);
             if (!result)
             {
                 return NotFound();

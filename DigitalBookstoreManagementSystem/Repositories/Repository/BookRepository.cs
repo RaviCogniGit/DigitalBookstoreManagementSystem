@@ -24,34 +24,16 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             return await _context.Books.FindAsync(BookID);
         }
 
-        public async Task<Book> AddBookAsync(BookDTO bookdto)
+        public async Task<Book> AddBookAsync(Book book)
         {
-            var book = new Book
-            {
-                BookID = bookdto.BookID,
-                Title = bookdto.Title,
-                Price = bookdto.Price,
-                StockQuantity = bookdto.StockQuantity,
-                AuthorID = bookdto.AuthorID,
-                CategoryID = bookdto.CategoryID,
-            };
-
             _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
             return book;
         }
 
-        public async Task UpdateBookAsync(int id, BookDTO bookdto)
+        public async Task UpdateBookAsync(int id, Book book)
         {
-            var book = new Book
-            {
-                BookID = bookdto.BookID,
-                Title = bookdto.Title,
-                Price = bookdto.Price,
-                StockQuantity = bookdto.StockQuantity,
-                AuthorID = bookdto.AuthorID,
-                CategoryID = bookdto.CategoryID,
-            };
+
             _context.Entry(book).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }

@@ -1,6 +1,8 @@
 ﻿using DigitalBookstoreManagementSystem.DTO;
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
+using DigitalBookstoreManagementSystem.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +10,12 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // [Authorize]
     public class ReviewController : ControllerBase
     {
-        private readonly IReviewRepository _reviewService;
+        private readonly IReviewService _reviewService;
 
-        public ReviewController(IReviewRepository reviewService)
+        public ReviewController(IReviewService reviewService)
         {
             _reviewService = reviewService;
         }
@@ -41,15 +44,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         [HttpPost]
         public async Task<ActionResult<Review>> PostReview(ReviewDTO reviewdto)
         {
-            var review = new Review
-            {
-                ReviewID = reviewdto.ReviewID,
-                Rating = reviewdto.Rating,
-                Comment = reviewdto.Comment,
-                BookID = reviewdto.BookID,
-                UserID = reviewdto.UserID,
-            };
-            var createdReview = await _reviewService.AddReviewAsync(review);
+            var createdReview = await _reviewService.AddReviewAsync(reviewdto);
             return CreatedAtAction("GetReview", new { id = createdReview.ReviewID }, createdReview);
         }
 
@@ -57,21 +52,13 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReview(int id, ReviewDTO reviewdto)
         {
-            var review = new Review
-            {
-                ReviewID = reviewdto.ReviewID,
-                Rating = reviewdto.Rating,
-                Comment = reviewdto.Comment,
-                BookID = reviewdto.BookID,
-                UserID = reviewdto.UserID,
-            };
-            if (id != review.ReviewID)
+            if (id != reviewdto.ReviewID)
             {
                 return BadRequest();
             }
             try
             {
-                await _reviewService.UpdateReviewAsync(id, review);
+                await _reviewService.UpdateReviewAsync(id, reviewdto);
             }
             catch (KeyNotFoundException)
             {

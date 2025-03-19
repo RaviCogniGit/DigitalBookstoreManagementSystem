@@ -2,8 +2,12 @@
 
 namespace DigitalBookstoreManagementSystem.Services.Interface
 {
-    public interface ILoginService
+    public interface IAccountService
     {
+        Task<bool> RegisterUser(RegisterUserDTO userdto);
+
         Task<string> AuthenticateUser(LoginUserDTO logindto); // String because jwt token returned after login
+
+
     }
 }

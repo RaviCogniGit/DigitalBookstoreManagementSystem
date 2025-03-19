@@ -1,6 +1,8 @@
 ﻿using DigitalBookstoreManagementSystem.DTO;
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
+using DigitalBookstoreManagementSystem.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +10,13 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // [Authorize]
+
     public class InventoryController : ControllerBase
     {
-        private readonly IInventoryRepository _context;
+        private readonly IInventoryService _context;
 
-        public InventoryController(IInventoryRepository context)
+        public InventoryController(IInventoryService context)
         {
             _context = context;
         }
@@ -41,15 +45,9 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             {
                 return BadRequest("Invalid inventory data.");
             }
-            var inventory = new Inventory
-            {
-                InventoryID = inventorydto.InventoryID,
-                Quantity = inventorydto.Quantity,
-                BookID = inventorydto.BookID,
-            };
 
-            await _context.AddInventoryAsync(inventory);
-            return CreatedAtAction(nameof(GetInventoryById), new { id = inventory.InventoryID }, inventory);
+            await _context.AddInventoryAsync(inventorydto);
+            return CreatedAtAction(nameof(GetInventoryById), new { id = inventorydto.InventoryID }, inventorydto);
         }
 
         [HttpPut("{id}")]
@@ -59,14 +57,8 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             {
                 return BadRequest("Inventory ID mismatch or invalid data.");
             }
-            var inventory = new Inventory
-            {
-                InventoryID = inventorydto.InventoryID,
-                Quantity = inventorydto.Quantity,
-                BookID = inventorydto.BookID,
-            };
 
-            await _context.UpdateInventoryAsync(inventory);
+            await _context.UpdateInventoryAsync(inventorydto);
             return Ok("Inventory Updated Successfully.");
         }
 
