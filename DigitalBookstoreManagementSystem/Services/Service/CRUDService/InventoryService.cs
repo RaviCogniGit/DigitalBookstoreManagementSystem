@@ -4,7 +4,7 @@ using DigitalBookstoreManagementSystem.Repositories.Interface;
 using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace DigitalBookstoreManagementSystem.Services.Service
+namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
 {
     public class InventoryService : IInventoryService
     {
@@ -45,7 +45,7 @@ namespace DigitalBookstoreManagementSystem.Services.Service
                 Quantity = inventorydto.Quantity,
                 BookID = inventorydto.BookID,
             };
-            return await _inventoryRepository.UpdateInventoryAsync(inventory);  
+            return await _inventoryRepository.UpdateInventoryAsync(inventory);
         }
 
         public async Task DeleteInventoryAsync(int inventoryId)

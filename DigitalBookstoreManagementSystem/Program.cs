@@ -5,11 +5,12 @@ using DigitalBookstoreManagementSystem;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using DigitalBookstoreManagementSystem.Repositories.Repository;
 using DigitalBookstoreManagementSystem.Services.Interface;
-using DigitalBookstoreManagementSystem.Services.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using DigitalBookstoreManagementSystem.Services.Service.CRUDService;
+using DigitalBookstoreManagementSystem.Services.Service.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IInventoryService, InventoryService>();  
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IUserService, UserService>();    
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

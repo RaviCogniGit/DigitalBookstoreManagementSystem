@@ -4,7 +4,7 @@ using DigitalBookstoreManagementSystem.Repositories.Interface;
 using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace DigitalBookstoreManagementSystem.Services.Service
+namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
 {
     public class OrderService : IOrderService
     {

@@ -4,7 +4,7 @@ using DigitalBookstoreManagementSystem.Repositories.Interface;
 using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.AspNetCore.Identity;
 
-namespace DigitalBookstoreManagementSystem.Services.Service
+namespace DigitalBookstoreManagementSystem.Services.Service.Service
 {
     public class AccountService : IAccountService
     {
@@ -19,7 +19,7 @@ namespace DigitalBookstoreManagementSystem.Services.Service
 
         public async Task<string> AuthenticateUser(LoginUserDTO logindto)
         {
-            var user = await userRepository.GetUserByEmail(logindto.Email);
+            var user = await userRepository.GetUserByEmailAsync(logindto.Email);
             if (user == null || logindto.Password != user.Password)
             {
                 return null;
@@ -47,7 +47,7 @@ namespace DigitalBookstoreManagementSystem.Services.Service
                 Role = userdto.Role
             };
 
-            await userRepository.AddUser(user);
+            await userRepository.AddUserAsync(user);
             return true;
         }
     }

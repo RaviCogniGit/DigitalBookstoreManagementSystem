@@ -10,6 +10,6 @@ namespace DigitalBookstoreManagementSystem.Models
         public required string Name { get; set; }
 
         // Navigation Property
-        public Book? book { get; set; }
+        public ICollection<Book>? book { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using DigitalBookstoreManagementSystem.Repositories.Repository;
 using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace DigitalBookstoreManagementSystem.Services.Service
+namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
 {
     public class BookService : IBookService
     {

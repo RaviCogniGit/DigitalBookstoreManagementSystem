@@ -1,6 +1,7 @@
 ﻿using DigitalBookstoreManagementSystem.DTO;
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
+using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,56 +14,48 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 
     public class UserController : ControllerBase
     {
-        // Dependency Injection to provide Usercontroller with an instance of IUserRepository
-        private readonly IUserRepository _context;
+        private readonly IUserService _userService;
 
-        public UserController(IUserRepository context)
+        public UserController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser([FromBody] UserDTO userdto)
-        // The method take a parameter user of type User which would be provided in the body of the http post request from postman.
+        public async Task<ActionResult<User>> AddUserAsync([FromBody] UserDTO userdto)
+
         {
             if (userdto == null) // Checks whether proper JSON body is provided for it 
             {
                 return BadRequest("Invalid Data");
             }
-            var user = new User
-            {
-                Name = userdto.Name,
-                Email = userdto.Email,
-                Role = userdto.Role,
-                Password = userdto.Password
-            };
-            await _context.AddUser(user);
-            return Ok(user);
+            await _userService.AddUserAsync(userdto);
+            return Ok(userdto);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        public async Task<ActionResult<User>> DeleteUserAsync(int id)
         {
-            var user = await _context.GetUserByID(id);
+            var user = await _userService.GetUserByIDAsync(id);
             if (user == null)
             {
                 return NotFound(id);
             }
 
-            await _context.DeleteUser(id);
+            await _userService.DeleteUserAsync(id);
             return NoContent();
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsersAsync()
         {
-            var user = await _context.GetAllUsers();
+            var user = await _userService.GetAllUsersAsync();
             return Ok(user);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserByID(int id)
+        public async Task<ActionResult<User>> GetUserByIDAsync(int id)
         {
-            var user = await _context.GetUserByID(id);
+            var user = await _userService.GetUserByIDAsync(id);
             if (user == null)
             {
                 return NotFound(id);
@@ -72,20 +65,13 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] UserDTO userdto)
+        public async Task<ActionResult<User>> UpdateUserAsync(int id, [FromBody] UserDTO userdto)
         {
             if (id != userdto.UserID)
             {
                 return BadRequest("Entered ID does not match!");
             }
-            var user = new User
-            {
-                Name = userdto.Name,
-                Email = userdto.Email,
-                Role = userdto.Role,
-                Password = userdto.Password
-            };
-            await _context.UpdateUser(user);
+            await _userService.UpdateUserAsync(userdto);
             return NoContent();
         }
 
