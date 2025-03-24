@@ -11,7 +11,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class AuthorController : ControllerBase
     {

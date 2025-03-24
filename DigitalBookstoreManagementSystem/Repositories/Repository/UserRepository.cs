@@ -58,6 +58,8 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             await _context.SaveChangesAsync();
         }
 
+        // Account Service - Authenticate User Method
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _context.Users.SingleOrDefaultAsync(u => u.Email == email);

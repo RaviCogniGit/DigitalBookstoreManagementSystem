@@ -8,18 +8,18 @@ namespace DigitalBookstoreManagementSystem.Services.Service.Service
 {
     public class AccountService : IAccountService
     {
-        private readonly IUserRepository userRepository;
-        private readonly ITokenRepository tokenRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ITokenRepository _tokenRepository;
 
         public AccountService(IUserRepository userRepository, ITokenRepository tokenRepository)
         {
-            this.userRepository = userRepository;
-            this.tokenRepository = tokenRepository;
+            _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
         }
 
         public async Task<string> AuthenticateUser(LoginUserDTO logindto)
         {
-            var user = await userRepository.GetUserByEmailAsync(logindto.Email);
+            var user = await _userRepository.GetUserByEmailAsync(logindto.Email);
             if (user == null || logindto.Password != user.Password)
             {
                 return null;
@@ -27,7 +27,7 @@ namespace DigitalBookstoreManagementSystem.Services.Service.Service
 
             var roles = new List<string> { user.Role };
 
-            var token = tokenRepository.CreateJWTToken(new IdentityUser { Email = user.Email }, roles);
+            var token = _tokenRepository.CreateJWTToken(new IdentityUser { Email = user.Email }, roles);
 
             return token;
         }
@@ -47,7 +47,7 @@ namespace DigitalBookstoreManagementSystem.Services.Service.Service
                 Role = userdto.Role
             };
 
-            await userRepository.AddUserAsync(user);
+            await _userRepository.AddUserAsync(user);
             return true;
         }
     }

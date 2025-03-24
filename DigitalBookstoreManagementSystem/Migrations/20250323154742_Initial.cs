@@ -155,14 +155,12 @@ namespace DigitalBookstoreManagementSystem.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Books_AuthorID",
                 table: "Books",
-                column: "AuthorID",
-                unique: true);
+                column: "AuthorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_CategoryID",
                 table: "Books",
-                column: "CategoryID",
-                unique: true);
+                column: "CategoryID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Inventories_BookID",

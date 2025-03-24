@@ -2,6 +2,7 @@
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using DigitalBookstoreManagementSystem.Services.Interface;
+using DigitalBookstoreManagementSystem.Services.Service.CRUDService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,25 +15,25 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 
     public class BookController : ControllerBase
     {
-        private readonly IBookService _context;
+        private readonly IBookService _bookService;
 
-        public BookController(IBookService context)
+        public BookController(IBookService bookService)
         {
-            _context = context;
+            _bookService = bookService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            var books = await _context.GetAllBooksAsync();
+            var books = await _bookService.GetAllBooksAsync();
             return Ok(books);
         }
 
         // GET: api/Books/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var book = await _context.GetBookByIdAsync(id);
+            var book = await _bookService.GetBookByIdAsync(id);
             if (book == null)
             {
                 return NotFound();
@@ -44,7 +45,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(BookDTO bookdto)
         {
-            var createdBook = await _context.AddBookAsync(bookdto);
+            var createdBook = await _bookService.AddBookAsync(bookdto);
             return CreatedAtAction("GetBook", new { id = createdBook.BookID }, createdBook);
         }
 
@@ -60,7 +61,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 
             try
             {
-                await _context.UpdateBookAsync(id, bookdto);
+                await _bookService.UpdateBookAsync(id, bookdto);
             }
             catch (KeyNotFoundException)
             {
@@ -75,7 +76,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         {
             try
             {
-                await _context.DeleteBookAsync(id);
+                await _bookService.DeleteBookAsync(id);
             }
             catch (KeyNotFoundException)
             {
@@ -83,6 +84,17 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("{searchText}")]
+        public async Task<ActionResult<Book>> SearchBooksAsync(string searchText)
+        {
+            var book = await _bookService.SearchBooksAsync(searchText);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return Ok(book);
         }
     }
 }

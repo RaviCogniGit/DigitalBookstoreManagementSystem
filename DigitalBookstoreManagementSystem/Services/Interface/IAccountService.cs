@@ -8,6 +8,5 @@ namespace DigitalBookstoreManagementSystem.Services.Interface
 
         Task<string> AuthenticateUser(LoginUserDTO logindto); // String because jwt token returned after login
 
-
     }
 }

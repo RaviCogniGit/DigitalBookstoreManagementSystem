@@ -15,7 +15,7 @@ namespace DigitalBookstoreManagementSystem.Models
         public required string Password { get; set; }
         public required string Role { get; set; }
 
-        //Navigation Property
+        // Navigation Property
         public ICollection<Review>? Review { get; set; } 
         public ICollection<Order>? order { get; set; }
 

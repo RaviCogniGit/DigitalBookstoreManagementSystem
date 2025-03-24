@@ -61,7 +61,11 @@ namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
             await _bookRepository.DeleteBookAsync(id);
         }
 
-
+        public async Task<IEnumerable<Book>> SearchBooksAsync(string searchText)
+        {
+            var result = await _bookRepository.SearchBooksAsync(searchText);
+            return result;
+        }
 
     }
 }

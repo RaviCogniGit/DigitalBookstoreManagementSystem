@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalBookstoreManagementSystem.Migrations
 {
     [DbContext(typeof(DigitalBookstoreManagementSystemDBContext))]
-    [Migration("20250315114034_Initial")]
+    [Migration("20250323154742_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -68,11 +68,9 @@ namespace DigitalBookstoreManagementSystem.Migrations
 
                     b.HasKey("BookID");
 
-                    b.HasIndex("AuthorID")
-                        .IsUnique();
+                    b.HasIndex("AuthorID");
 
-                    b.HasIndex("CategoryID")
-                        .IsUnique();
+                    b.HasIndex("CategoryID");
 
                     b.ToTable("Books");
                 });
@@ -205,14 +203,14 @@ namespace DigitalBookstoreManagementSystem.Migrations
             modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Book", b =>
                 {
                     b.HasOne("DigitalBookstoreManagementSystem.Models.Author", "Author")
-                        .WithOne("book")
-                        .HasForeignKey("DigitalBookstoreManagementSystem.Models.Book", "AuthorID")
+                        .WithMany("book")
+                        .HasForeignKey("AuthorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalBookstoreManagementSystem.Models.Category", "Category")
-                        .WithOne("book")
-                        .HasForeignKey("DigitalBookstoreManagementSystem.Models.Book", "CategoryID")
+                        .WithMany("book")
+                        .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
