@@ -51,10 +51,10 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
         public async Task<IEnumerable<Book>> SearchBooksAsync(string searchText)
         {
             List<Book> books = await _context.Books
-                .Include(b => b.Author)
-                .Include(b => b.Category)
-                .Where(b => b.Title.Contains(searchText) || b.Author.Name.Contains(searchText) || b.Category.Name.Contains(searchText))
-                .ToListAsync();
+                // .Include(b => b.Author)
+                // .Include(b => b.Category)
+               //  .Where(b => b.Title.Contains(searchText) || b.Author.Name.Contains(searchText) || b.Category.Name.Contains(searchText))
+               .ToListAsync();
             return books;
         }
     }

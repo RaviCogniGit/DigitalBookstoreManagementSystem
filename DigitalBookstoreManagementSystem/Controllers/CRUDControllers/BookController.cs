@@ -23,7 +23,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult> GetBooks()
         {
             var books = await _bookService.GetAllBooksAsync();
             return Ok(books);

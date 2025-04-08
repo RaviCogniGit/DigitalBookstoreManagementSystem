@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DigitalBookstoreManagementSystem.Models
 {
@@ -7,9 +8,15 @@ namespace DigitalBookstoreManagementSystem.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
+        [Column("BookId")]
         public int BookID { get; set; }
+
+        [Column("Title")]
         public required string Title { get; set; }
+        [Column("Price")]
         public required double Price { get; set; }
+        [Column("StockQuantity")]
         public required int StockQuantity { get; set; }
 
         // Foreign Key
@@ -20,7 +27,7 @@ namespace DigitalBookstoreManagementSystem.Models
         public int CategoryID { get; set; }
 
         // Navigation Property
-        public Author? Author { get; set; }  // Check Required or ? or Ignore the warning
+        public Author? Author { get; set; }  
         public Category? Category { get; set; }
 
     }

@@ -4,6 +4,7 @@ using DigitalBookstoreManagementSystem;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalBookstoreManagementSystem.Migrations
 {
     [DbContext(typeof(DigitalBookstoreManagementSystemDBContext))]
-    partial class DigitalBookstoreManagementSystemDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250407075655_mioooo")]
+    partial class mioooo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,21 +206,17 @@ namespace DigitalBookstoreManagementSystem.Migrations
 
             modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Book", b =>
                 {
-                    b.HasOne("DigitalBookstoreManagementSystem.Models.Author", "Author")
+                    b.HasOne("DigitalBookstoreManagementSystem.Models.Author", null)
                         .WithMany("book")
                         .HasForeignKey("AuthorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DigitalBookstoreManagementSystem.Models.Category", "Category")
+                    b.HasOne("DigitalBookstoreManagementSystem.Models.Category", null)
                         .WithMany("book")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DigitalBookstoreManagementSystem.Models.Inventory", b =>

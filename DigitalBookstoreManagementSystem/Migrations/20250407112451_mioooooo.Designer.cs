@@ -4,6 +4,7 @@ using DigitalBookstoreManagementSystem;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalBookstoreManagementSystem.Migrations
 {
     [DbContext(typeof(DigitalBookstoreManagementSystemDBContext))]
-    partial class DigitalBookstoreManagementSystemDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250407112451_mioooooo")]
+    partial class mioooooo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
