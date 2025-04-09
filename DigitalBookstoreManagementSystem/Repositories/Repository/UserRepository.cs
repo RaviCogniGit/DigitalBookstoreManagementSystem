@@ -51,18 +51,18 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             return await _context.Users.FindAsync(UserID);
         }
 
-        // Update Operation
-        public async Task UpdateUserAsync(User user)
-        {
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-        }
-
         // Account Service - Authenticate User Method
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<User> UpdateUserAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
 
     }

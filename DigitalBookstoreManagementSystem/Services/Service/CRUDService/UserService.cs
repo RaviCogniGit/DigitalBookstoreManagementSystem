@@ -1,6 +1,7 @@
 ﻿using DigitalBookstoreManagementSystem.DTO;
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
+using DigitalBookstoreManagementSystem.Repositories.Repository;
 using DigitalBookstoreManagementSystem.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,17 +46,22 @@ namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
             return await _userRepository.GetUserByIDAsync(UserID);
         }
 
-        // Update Operation
         public async Task UpdateUserAsync(UserDTO userdto)
         {
-            var user = new User
+            var user = await _userRepository.GetUserByIDAsync(userdto.UserID);
+            if (user != null)
             {
-                Name = userdto.Name,
-                Email = userdto.Email,
-                Role = userdto.Role,
-                Password = userdto.Password
-            };
-            await _userRepository.UpdateUserAsync(user);
+                user.Name = userdto.Name;
+                user.Email = userdto.Email;
+                user.Role = userdto.Role;
+                user.Password = userdto.Password;
+
+                await _userRepository.UpdateUserAsync(user);
+            }
+            else
+            {
+                throw new Exception("User not found");
+            }
         }
 
         public async Task<User> GetUserByEmailAsync(string email)

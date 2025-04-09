@@ -2,9 +2,11 @@
 using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using DigitalBookstoreManagementSystem.Services.Interface;
+using DigitalBookstoreManagementSystem.Services.Service.CRUDService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 {
@@ -65,14 +67,15 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateUserAsync(int id, [FromBody] UserDTO userdto)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userdto)
         {
-            if (id != userdto.UserID)
+            if (userdto == null || id != userdto.UserID)
             {
-                return BadRequest("Entered ID does not match!");
+                return BadRequest("User ID mismatch or invalid data.");
             }
+
             await _userService.UpdateUserAsync(userdto);
-            return NoContent();
+            return Ok("User Updated Successfully.");
         }
 
     }
