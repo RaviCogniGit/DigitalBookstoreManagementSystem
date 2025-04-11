@@ -54,7 +54,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             return Ok(user);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<User>> GetUserByIDAsync(int id)
         {
             var user = await _userService.GetUserByIDAsync(id);
@@ -76,6 +76,18 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 
             await _userService.UpdateUserAsync(userdto);
             return Ok("User Updated Successfully.");
+        }
+
+        [HttpGet("{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            var user = await _userService.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound(email);
+            }
+
+            return Ok(user);
         }
 
     }
