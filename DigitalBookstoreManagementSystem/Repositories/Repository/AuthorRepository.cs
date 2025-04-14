@@ -17,7 +17,7 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             var author = new Author
             {
                 AuthorID = 0,
-                Name = authordto.Name,
+                AuthorName = authordto.AuthorName,
             };
             if (authordto != null)
             {

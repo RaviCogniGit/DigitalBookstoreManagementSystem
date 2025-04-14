@@ -55,5 +55,25 @@ namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
         {
             await _reviewRepository.DeleteReviewAsync(id);
         }
+
+        public async Task<double?> GetAverageRatingByBookIdAsync(int BookID)
+        {
+            var reviews = await _reviewRepository.GetReviewsByBookIdAsync(BookID);
+            if (reviews == null || !reviews.Any())
+            {
+                return null; // No reviews found
+            }
+
+            double averageRating = reviews.Average(r => r.Rating);
+            return averageRating;
+        }
+
+        public ICollection<string> GetReviewComments(int BookID)
+        {
+            // Fetch all Comments in var comments
+            var comments = _reviewRepository.GetReviewCommentsBybookId(BookID);
+            return comments;
+        }
     }
 }
+

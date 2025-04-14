@@ -16,7 +16,11 @@ namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
             _bookRepository = bookRepository;
         }
 
-        public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        //public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        //{
+        //    return await _bookRepository.GetAllBooksAsync();
+        //}
+        public async Task<IEnumerable<BookAuthorDTO>> GetAllBooksAsync()
         {
             return await _bookRepository.GetAllBooksAsync();
         }
@@ -66,6 +70,5 @@ namespace DigitalBookstoreManagementSystem.Services.Service.CRUDService
             var result = await _bookRepository.SearchBooksAsync(searchText);
             return result;
         }
-
     }
 }

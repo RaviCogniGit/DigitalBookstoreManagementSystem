@@ -45,5 +45,21 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<IEnumerable<Review>> GetReviewsByBookIdAsync(int BookID)
+        {
+            return await _context.Reviews.Where(r => r.BookID == BookID).ToListAsync();
+        }
+
+        public ICollection<string> GetReviewCommentsBybookId(int BookID)
+        {
+            // Filter by event ID and non-empty comments, then select the Comments property
+            var comments = _context.Reviews
+                .Where(f => f.BookID == BookID && !string.IsNullOrEmpty(f.Comment))
+                .Select(f => f.Comment) // Select only the Comments field
+                .ToList(); // Convert to a List<string>
+            return comments;
+        }
     }
 }
+

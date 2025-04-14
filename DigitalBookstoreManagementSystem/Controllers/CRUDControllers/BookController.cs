@@ -12,7 +12,6 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
     [Route("api/[controller]")]
     [ApiController]
     // [Authorize(Roles = "Admin")]
-
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -23,7 +22,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookAuthorDTO>>> GetBooks()
         {
             var books = await _bookService.GetAllBooksAsync();
             return Ok(books);
@@ -53,7 +52,6 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, BookDTO bookdto)
         {
-
             if (id != bookdto.BookID)
             {
                 return BadRequest();

@@ -14,9 +14,23 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        public async Task<IEnumerable<BookAuthorDTO>> GetAllBooksAsync()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.Category)
+                .Select(b => new BookAuthorDTO
+                {
+                    BookID = b.BookID,
+                    Title = b.Title,
+                    StockQuantity = b.StockQuantity,
+                    Price = b.Price,
+                    AuthorID = b.AuthorID,
+                    AuthorName = b.Author.AuthorName,
+                    CategoryID = b.CategoryID,
+                    CategoryName = b.Category.CategoryName
+                })
+                .ToListAsync();
         }
 
         public async Task<Book> GetBookByIdAsync(int BookID)
@@ -33,7 +47,6 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
 
         public async Task UpdateBookAsync(int id, Book book)
         {
-
             _context.Entry(book).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
@@ -52,10 +65,12 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
         {
             List<Book> books = await _context.Books
                 .Include(b => b.Author)
-                 .Include(b => b.Category)
-                .Where(b => b.Title.Contains(searchText) || b.Author.Name.Contains(searchText) || b.Category.Name.Contains(searchText))
-               .ToListAsync();
+                .Include(b => b.Category)
+                .Where(b => b.Title.Contains(searchText) || b.Author.AuthorName.Contains(searchText) || b.Category.CategoryName.Contains(searchText))
+                .ToListAsync();
             return books;
         }
     }
 }
+
+

@@ -81,5 +81,25 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             }
             return NoContent();
         }
+
+        [HttpGet("average-rating")]
+        public async Task<ActionResult> GetAverageRatingByBookId(int bookId)
+        {
+            var averageRating = await _reviewService.GetAverageRatingByBookIdAsync(bookId);
+            if (averageRating == null)
+            {
+                return NotFound(new { message = "No reviews found for this book" });
+            }
+            return Ok(new { bookId, averageRating });
+        }
+
+        [HttpGet]
+        [Route("CommentsForSpecificBook/")]
+        //[Authorize(Roles = "User")]
+        public IActionResult GetReviewComments(int bookId)
+        {
+            var comments = _reviewService.GetReviewComments(bookId);
+            return Ok(comments);
+        }
     }
 }

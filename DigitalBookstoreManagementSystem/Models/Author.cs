@@ -7,7 +7,7 @@ namespace DigitalBookstoreManagementSystem.Models
     {
         [Key]
         public required int AuthorID { get; set; }
-        public required string Name { get; set; }
+        public required string AuthorName { get; set; }
 
         // Navigation Property
         public ICollection<Book>? book { get; set; }

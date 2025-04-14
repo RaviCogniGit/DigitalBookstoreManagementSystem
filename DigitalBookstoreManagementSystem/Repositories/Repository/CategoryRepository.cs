@@ -16,7 +16,7 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             var category = new Category
             {
                 CategoryID = 0,
-                Name = categorydto.Name,
+                CategoryName = categorydto.CategoryName,
             };
 
             if (categorydto != null)

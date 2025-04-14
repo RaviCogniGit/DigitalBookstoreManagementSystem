@@ -9,5 +9,9 @@ namespace DigitalBookstoreManagementSystem.Repositories.Interface
         Task<Review> AddReviewAsync(Review review);
         Task UpdateReviewAsync(int id, Review review);
         Task DeleteReviewAsync(int id);
+        Task<IEnumerable<Review>> GetReviewsByBookIdAsync(int BookID);
+        ICollection<String> GetReviewCommentsBybookId(int BookID);
+
+
     }
 }

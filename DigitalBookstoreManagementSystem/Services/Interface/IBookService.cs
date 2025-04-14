@@ -5,7 +5,7 @@ namespace DigitalBookstoreManagementSystem.Services.Interface
 {
     public interface IBookService
     {
-        Task<IEnumerable<Book>> GetAllBooksAsync();
+        Task<IEnumerable<BookAuthorDTO>> GetAllBooksAsync();
         Task<Book> GetBookByIdAsync(int id);
         Task<Book> AddBookAsync(BookDTO bookdto);
         Task<IEnumerable<Book>> SearchBooksAsync(string searchText);
