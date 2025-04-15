@@ -55,7 +55,7 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User> UpdateUserAsync(User user)

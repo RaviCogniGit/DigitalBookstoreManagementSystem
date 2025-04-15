@@ -1,4 +1,5 @@
-﻿using DigitalBookstoreManagementSystem.Models;
+﻿using DigitalBookstoreManagementSystem.DTO;
+using DigitalBookstoreManagementSystem.Models;
 using DigitalBookstoreManagementSystem.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,21 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Review>> GetAllReviewsAsync()
+        public async Task<IEnumerable<UserReviewDto>> GetAllReviewsAsync()
         {
-            return await _context.Reviews.ToListAsync();
+            return await _context.Reviews
+
+                .Include(b => b.Book)
+
+                .Select(b => new UserReviewDto
+                {
+                    BookID = b.BookID,
+                    Title = b.Book.Title,
+                    Rating = b.Rating,
+                    Comment = b.Comment,
+                    UserID = b.UserID
+                })
+                 .ToListAsync();
         }
 
         public async Task<Review> GetReviewByIdAsync(int id)
@@ -49,8 +62,9 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
         public async Task<IEnumerable<Review>> GetReviewsByBookIdAsync(int BookID)
         {
             return await _context.Reviews.Where(r => r.BookID == BookID).ToListAsync();
-        }
 
+
+        }
         public ICollection<string> GetReviewCommentsBybookId(int BookID)
         {
             // Filter by event ID and non-empty comments, then select the Comments property

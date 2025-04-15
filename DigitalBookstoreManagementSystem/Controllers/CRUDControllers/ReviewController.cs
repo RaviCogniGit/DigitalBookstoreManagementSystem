@@ -22,7 +22,7 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
 
         // GET: api/Reviews
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
+        public async Task<ActionResult<IEnumerable<UserReviewDto>>> GetReviews()
         {
             var reviews = await _reviewService.GetAllReviewsAsync();
             return Ok(reviews);
@@ -90,16 +90,19 @@ namespace DigitalBookstoreManagementSystem.Controllers.CRUDControllers
             {
                 return NotFound(new { message = "No reviews found for this book" });
             }
+
             return Ok(new { bookId, averageRating });
         }
-
         [HttpGet]
         [Route("CommentsForSpecificBook/")]
         //[Authorize(Roles = "User")]
+
         public IActionResult GetReviewComments(int bookId)
         {
             var comments = _reviewService.GetReviewComments(bookId);
             return Ok(comments);
         }
+
+
     }
 }
