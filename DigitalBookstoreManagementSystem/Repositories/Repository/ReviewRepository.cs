@@ -26,7 +26,8 @@ namespace DigitalBookstoreManagementSystem.Repositories.Repository
                     Title = b.Book.Title,
                     Rating = b.Rating,
                     Comment = b.Comment,
-                    UserID = b.UserID
+                    UserID = b.UserID,
+                    ReviewID = b.ReviewID,
                 })
                  .ToListAsync();
         }
